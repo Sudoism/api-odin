@@ -16,18 +16,18 @@
   <script>
       const img = document.querySelector('img');
       const search = document.querySelector('input')
-      function searchGif(searchTerm) {
-        fetch(`https://api.giphy.com/v1/gifs/translate?api_key=APIKEY&s=${searchTerm}`, {mode: 'cors'})
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(response) {
-            img.src = response.data.images.original.url
-        })
-        .catch(error => {
+      async function searchGif(searchTerm) {
+        try {
+        const response = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=APIKEY&s=${searchTerm}`, {mode: 'cors'})
+        const gifData = await response.json();
+        img.src = gifData.data.images.original.url
+
+        } catch (error) {
             searchGif("error");
-        })
+        }
+
       };
+
       const but = document.querySelector('button');
       but.addEventListener("click", () => {
           searchGif(search.value)
